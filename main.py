@@ -16,7 +16,6 @@ if __name__ == '__main__':
     # # Send PC specs of the user to the Discord server
     # send_pc_specs()
 
-    post_request = discord.create_channel()
-    print(post_request)
-    print(post_request.text)
-    print(post_request.json)
+    discord.login()
+    discord.create_channel("test")
+    discord.send_message("Hello world")
