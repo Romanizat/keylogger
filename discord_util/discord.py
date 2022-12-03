@@ -49,4 +49,8 @@ def send_message(message):
         "content": str(message),
         "tts": False
     }
-    requests.post(request_url, json=payload, headers=header)
+    response = requests.post(request_url, json=payload, headers=header)
+
+    if response.status_code == 401:
+        login()
+        send_message(message)
