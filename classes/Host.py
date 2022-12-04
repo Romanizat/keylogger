@@ -19,8 +19,7 @@ class Host:
         self.external_ip = get('https://api.ipify.org').content.decode('utf8')
         self.mac = ':'.join(re.findall('..', '%012x' % uuid.getnode()))
         self.ram = str(round(psutil.virtual_memory().total / (1024.0 ** 3))) + " GB"
-        self.cpu = str(psutil.cpu_freq().max / 1000) + " GHz" + ", " + str(
-            psutil.cpu_count()) + " cores, " + str(cpuinfo.get_cpu_info()['brand_raw'])
+        self.cpu = str(psutil.cpu_freq().max / 1000) + " GHz" + ", " + str(cpuinfo.get_cpu_info()['brand_raw'])
 
     def __str__(self) -> str:
         return "Username: " + self.username + "\n" + \
