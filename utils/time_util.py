@@ -27,3 +27,11 @@ def convert_date_to_time_format(date):
 
 def convert_date_to_date_and_time_format(date):
     return date.strftime("%d-%m-%Y %H:%M:%S")
+
+
+def convert_string_to_datetime(date_string):
+    return datetime.strptime(date_string, "%d-%m-%Y %H:%M:%S:%f")
+
+
+def get_difference_in_minutes(start_time, end_time):
+    return (convert_string_to_datetime(end_time) - convert_string_to_datetime(start_time)).total_seconds() / 60.0
