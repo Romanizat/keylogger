@@ -51,6 +51,12 @@ def send_message(message):
     }
     response = requests.post(request_url, json=payload, headers=header)
 
+    if response.status_code == 200:
+        print("Message sent")
+
+    if response.status_code == 400:
+        print("Error " + str(response.status_code) + " " + response.text)
+
     if response.status_code == 401:
         login()
         send_message(message)

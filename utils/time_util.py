@@ -14,7 +14,7 @@ def get_current_time():
 
 
 def get_current_date_and_time():
-    return datetime.now().strftime("%d-%m-%Y %H:%M:%S")
+    return datetime.now().strftime("%d-%m-%Y %H:%M:%S:%f")
 
 
 def convert_date_to_date_format(date):
