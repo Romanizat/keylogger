@@ -1,8 +1,8 @@
-def get_discord_email_and_password():
+def get_discord_token():
     with open("credentials.txt", "r") as credentials_file:
         credentials = credentials_file.readlines()
         try:
-            return credentials[1], credentials[3]
+            return credentials[0]
         except IndexError:
-            print("Discord credentials not found")
-            return None, None
+            print("Discord token not found")
+            return None
