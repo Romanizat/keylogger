@@ -1,62 +1,14 @@
-import json
-
-import requests
+from dhooks import Webhook, File
 
 from utils import auth
 
-header = {}
-channel_id = None
-
-
-def login():
-    # Login to Discord
-    request_url = "https://discord.com/api/v9/auth/login"
-    email, password = auth.get_discord_email_and_password()
-    payload = {
-        "login": email,
-        "password": password,
-        "undelete": False,
-        "captcha_key": None,
-        "login_source": None,
-        "gift_code_sku_id": None
-    }
-    response = json.loads(requests.post(request_url, json=payload).text)
-    global header
-    header["authorization"] = response["token"]
-    print("Logged in to Discord")
-
-
-def create_channel(channel_name):
-    # Create channel for log session
-    request_url = "https://discord.com/api/v9/guilds/1048572679583707136/channels"
-    payload = {
-        "name": str(channel_name),
-        "parent_id": "1048572735082729482",
-        "permission_overwrites": [],
-        "type": 0
-    }
-
-    response = json.loads(requests.post(request_url, json=payload, headers=header).text)
-    print("Created channel")
-    global channel_id
-    channel_id = response["id"]
+hook = Webhook(auth.get_discord_webhook_url())
 
 
 def send_message(message):
-    # Send message to the channel
-    request_url = "https://discord.com/api/v9/channels/" + str(channel_id) + "/messages"
-    payload = {
-        "content": str(message),
-        "tts": False
-    }
-    response = requests.post(request_url, json=payload, headers=header)
+    hook.send(message)
 
-    if response.status_code == 200:
-        print("Message sent")
 
-    if response.status_code == 400:
-        print("Error " + str(response.status_code) + " " + response.text)
-
-    if response.status_code == 401:
-        login()
-        send_message(message)
+def send_file(file_path, file_name):
+    file = File(file_path, name=file_name)
+    hook.send('New logs:', file=file)

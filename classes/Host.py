@@ -31,3 +31,15 @@ class Host:
                "MAC: " + self.mac + "\n" + \
                "RAM: " + self.ram + "\n" + \
                "CPU: " + self.cpu
+
+    def to_json(self):
+        return {"username": self.username,
+                "hostname": self.hostname,
+                "os": self.os,
+                "architecture": self.architecture,
+                "local_ip": self.local_ip,
+                "external_ip": self.external_ip,
+                "mac": self.mac,
+                "ram": self.ram,
+                "cpu": self.cpu
+                }
