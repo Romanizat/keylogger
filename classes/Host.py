@@ -5,8 +5,6 @@ import socket
 import uuid
 
 import psutil as psutil
-from cpuinfo import cpuinfo
-from requests import get
 
 
 class Host:
@@ -16,10 +14,10 @@ class Host:
         self.os = platform.platform()
         self.architecture = platform.architecture()
         self.local_ip = socket.gethostbyname(socket.gethostname())
-        self.external_ip = get('https://api.ipify.org').content.decode('utf8')
+        # self.external_ip = get('https://api.ipify.org').content.decode('utf8')
         self.mac = ':'.join(re.findall('..', '%012x' % uuid.getnode()))
         self.ram = str(round(psutil.virtual_memory().total / (1024.0 ** 3))) + " GB"
-        self.cpu = str(psutil.cpu_freq().max / 1000) + " GHz" + ", " + str(cpuinfo.get_cpu_info()['brand_raw'])
+        # self.cpu = str(psutil.cpu_freq().max / 1000) + " GHz" + ", " + str(cpuinfo.get_cpu_info()['brand_raw'])
 
     def __str__(self) -> str:
         return "Username: " + self.username + "\n" + \
@@ -27,10 +25,10 @@ class Host:
                "OS: " + self.os + "\n" + \
                "Architecture: " + str(self.architecture) + "\n" + \
                "Local IP: " + self.local_ip + "\n" + \
-               "External IP: " + self.external_ip + "\n" + \
                "MAC: " + self.mac + "\n" + \
-               "RAM: " + self.ram + "\n" + \
-               "CPU: " + self.cpu
+               "RAM: " + self.ram + "\n"
+        # "CPU: " + self.cpu
+        # "External IP: " + self.external_ip + "\n" + \
 
     def to_json(self):
         return {"username": self.username,
@@ -38,8 +36,6 @@ class Host:
                 "os": self.os,
                 "architecture": self.architecture,
                 "local_ip": self.local_ip,
-                "external_ip": self.external_ip,
                 "mac": self.mac,
                 "ram": self.ram,
-                "cpu": self.cpu
                 }
