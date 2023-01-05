@@ -24,7 +24,7 @@ address.
 I will be updating this README with more information as I go and append a StackOverflow question to this repo for the
 aforementioned issue.
 
-In the future I might look into [Nuitka]("https://github.com/Nuitka/Nuitka") for compiling the project.
+In the future I might look into [Nuitka](https://github.com/Nuitka/Nuitka) for compiling the project.
 
 
 

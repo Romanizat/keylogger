@@ -1,6 +1,9 @@
 import json
 import os
 import sys
+import uuid
+
+import pyscreenshot as image_grab
 
 from classes import Host
 
@@ -43,3 +46,11 @@ def write_legible_text_to_file(keys: dict, file_name: str):
     text = convert_to_legible_text(keys)
     with open(file_name, "w") as file:
         file.write(text)
+
+
+def take_screenshot():
+    file_name = str(uuid.uuid4()) + '.png'
+    screenshot = image_grab.grab()
+    filepath = './screenshots/' + file_name
+    screenshot.save(filepath)
+    return filepath
