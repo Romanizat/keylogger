@@ -3,6 +3,7 @@ import os
 import sys
 import uuid
 
+import cv2
 import pyscreenshot as image_grab
 
 from classes import Host
@@ -53,4 +54,14 @@ def take_screenshot():
     screenshot = image_grab.grab()
     filepath = './screenshots/' + file_name
     screenshot.save(filepath)
+    return filepath
+
+
+def take_picture_from_webcam():
+    file_name = str(uuid.uuid4()) + '.png'
+    webcam = cv2.VideoCapture(0)
+    check, frame = webcam.read()
+    filepath = './screenshots/' + file_name
+    cv2.imwrite(filepath, frame)
+    webcam.release()
     return filepath

