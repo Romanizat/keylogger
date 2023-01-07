@@ -35,3 +35,7 @@ def convert_string_to_datetime(date_string):
 
 def get_difference_in_minutes(start_time, end_time):
     return (convert_string_to_datetime(end_time) - convert_string_to_datetime(start_time)).total_seconds() / 60.0
+
+
+def get_difference_in_seconds(start_time: datetime, end_time: datetime):
+    return (end_time - start_time).total_seconds()

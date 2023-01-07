@@ -7,6 +7,11 @@ A simple keylogger written in Python with Discord Webhooks integration that send
 
 ## This code DOES NOT promote or encourage any illegal activities! The content in this document is provided solely for educational purposes and to create awareness!
 
+## Requirements
+
+```bash
+pip install -r requirements.txt
+```
 
 
 ## For creating executable

